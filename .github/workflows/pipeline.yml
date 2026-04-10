@@ -28,8 +28,8 @@ jobs:
 
       - name: Simular tests
         run: |
-        echo "Ejecutando tests..."
-        exit 1
+          echo "Ejecutando tests..."
+          exit 1
 
   deploy:
     name: Deploy
