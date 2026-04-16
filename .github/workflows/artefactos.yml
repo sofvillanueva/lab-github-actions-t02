@@ -21,8 +21,11 @@ jobs:
       
       - name: Subir reporte
         uses: actions/upload-artifact@v4
+        with:
+          name: build-report
+          path: reports/
 
-   deploy:
+  deploy:
     needs: reporte
     runs-on: ubuntu-latest
     steps:
@@ -31,10 +34,6 @@ jobs:
         with:
           name: build-report
           path: reports/
-
+    
       - name: Usar el reporte
         run: cat reports/build-report.txt
-        with:
-          name: build-report
-          path: reports/
-          retention-days: 30       # opcional, default 90
