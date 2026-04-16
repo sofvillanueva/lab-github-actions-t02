@@ -1,0 +1,27 @@
+name: Pipeline Artefactos
+
+on: 
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+jobs:
+  reporte:
+    name: Reporte
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generar reporte
+        run: |
+          mkdir -p reports
+          echo "Build: OK" > reports/build-report.txt
+          echo "SHA: ${{ github.sha }}" >> reports/build-report.txt
+          echo "Fecha: $(date -u)" >> reports/build-report.txt
+      
+      - name: Subir reporte
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-report
+          path: reports/
+          retention-days: 30       # opcional, default 90
