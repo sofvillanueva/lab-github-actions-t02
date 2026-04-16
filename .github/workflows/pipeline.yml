@@ -83,7 +83,15 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          push: true
+
+      - name: Imprimir contexto
+        run: |
+          echo "SHA: ${{ github.sha }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Evento: ${{ github.event_name }}"
+          echo "Actor: ${{ github.actor }}"
+          echo "Runner OS: ${{ runner.os }}"
+
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/lab-github-actions:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/lab-github-actions:${{ github.sha }}
