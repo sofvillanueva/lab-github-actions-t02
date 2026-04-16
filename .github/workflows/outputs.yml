@@ -9,6 +9,7 @@ on:
 
 jobs:
   outputs:
+    runs-on: ubuntu-latest
     steps:
       - name: Generar tag de imagen
         id: tag           # ← necesario para referenciarlo después
@@ -17,4 +18,5 @@ jobs:
           echo "value=$SHORT_SHA" >> $GITHUB_OUTPUT
     
       - name: Usar el tag
-        run: echo "Tag: ${{ steps.tag.outputs.value }}"
+        run: |
+          echo "Tag: ${{ steps.tag.outputs.value }}"
