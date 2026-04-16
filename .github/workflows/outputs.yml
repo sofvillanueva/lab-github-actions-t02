@@ -1,0 +1,20 @@
+name: Pipeline Outputs
+
+on:
+  push:
+    branches: 
+      - main
+
+  workflow_dispatch:
+
+jobs:
+  outputs:
+    steps:
+      - name: Generar tag de imagen
+        id: tag           # ← necesario para referenciarlo después
+        run: |
+          SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
+          echo "value=$SHORT_SHA" >> $GITHUB_OUTPUT
+    
+      - name: Usar el tag
+        run: echo "Tag: ${{ steps.tag.outputs.value }}"
