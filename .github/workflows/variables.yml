@@ -1,0 +1,28 @@
+name: Pipeline Variables DevOps
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch: 
+
+env:                          # ← nivel workflow (disponible en todos los jobs)
+  APP_NAME: lab-github-actions
+  REGISTRY: docker.io
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:                      # ← nivel job (disponible en todos los steps del job)
+      BUILD_TARGET: production
+    steps:
+      - name: Usar variables
+        env:                  # ← nivel step (solo en este step)
+          STEP_VAR: valor-local
+        run: |
+          echo "App: $APP_NAME"
+          echo "Target: $BUILD_TARGET"
+          echo "Step var: $STEP_VAR"
