@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  outputs:
+  primera_forma:
     runs-on: ubuntu-latest
     steps:
       - name: Generar tag de imagen
@@ -20,3 +20,21 @@ jobs:
       - name: Usar el tag
         run: |
           echo "Tag: ${{ steps.tag.outputs.value }}"
+          
+  segunda_forma:
+    runs-on: ubuntu-latest
+    outputs:
+      image-tag: ${{ steps.tag.outputs.value }}   # ← expone el output del job
+    steps:
+      - name: Generar tag
+        id: tag
+        run: |
+          SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
+          echo "value=$SHORT_SHA" >> $GITHUB_OUTPUT
+
+  scan:
+    runs-on: ubuntu-latest
+    needs: segunda_forma
+    steps:
+      - name: Usar tag del job anterior
+        run: echo "Escaneando imagen con tag ${{ needs.segunda_forma.outputs.image-tag }}"
